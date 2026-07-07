@@ -1,5 +1,25 @@
+
 from langchain_openai import ChatOpenAI
-api_key = "vcr_sk_fc0905e9e690890a8592b7913203a10830d626a7da10f9436778883c7c05c8e3"
+from langchain_core.tools import tool
+
+
+api_key = "vcr_sk_96725ddabe06bfb610b7e2c625459d69e603f81b5da35ba6c723735c0ed85b78"
+
+@tool
+def calculator(a: float, b: float, operation: str) -> float:
+    if operation == "add":
+        return a + b
+    elif operation == "subtract":
+        return a - b
+    elif operation == "multiply":
+        return a * b
+    elif operation == "divide":
+        if b != 0:
+            return a / b
+        else:
+            return "Error: Division by zero"
+    else:
+        return "Error: Invalid operation"
 
 
 def build_system_prompt():
@@ -15,6 +35,7 @@ def build_system_prompt():
 
 
 def main():
+    message_history = []
     llm = ChatOpenAI(
         api_key=api_key, 
         model_name="ollama_cloud@minimax-m3:cloud", 
@@ -24,7 +45,7 @@ def main():
     while True:
         question = input("你的問題: ")
 
-        if not question.strip():
+        if question.strip() == "":
             print("請輸入一個問題。")
             continue
 
@@ -34,9 +55,16 @@ def main():
         
         system_prompt = build_system_prompt()
         user_prompt = {"role": "user", "content": question}
+        message_history.append(user_prompt)
 
-        response = llm.invoke([system_prompt, user_prompt])
-        print(response.content)
+        response = llm.invoke(
+            [system_prompt, *message_history]
+        )
+        assistant_content = response.content
+        message_history.append(
+            {"role": "assistant", "content": assistant_content}
+        )
+        print(assistant_content)
 
 
 
