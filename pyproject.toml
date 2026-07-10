@@ -1,13 +1,15 @@
 [project]
 name = "agentic-ai-vans"
 version = "0.1.0"
-description = "Add your description here"
+description = "Vans Agent 課程學生完成版"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "langchain-openai>=1.3.3",
+    "peas-agent-core",
     "peas-agent-tools",
 ]
 
 [tool.uv.sources]
-peas-agent-tools = { git = "https://github.com/mz038197/peas-agent-tools.git" }
+peas-agent-core = { path = "../peas-agent-core", editable = true }
+peas-agent-tools = { git = "https://github.com/mz038197/peas-agent-tools.git", tag = "v0.1.1" }

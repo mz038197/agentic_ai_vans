@@ -68,23 +68,26 @@ def main():
             # 先記下助理的 tool_calls 訊息，模型才知道是自己呼叫的
             message_history.append(response)
             print(response.tool_calls)
+
+            # 一次把模型要求的所有工具都執行完
             for tool_call in response.tool_calls:
                 print(f"Tool call: {tool_call}")
                 tool_name = tool_call["name"]
                 tool_args = tool_call["args"]
                 tool_id = tool_call["id"]
 
-                if tool_name in tool_map:
-                    tool_func = tool_map[tool_name]
-                    result = tool_func.invoke(tool_args)
-                    tool_response = {"role": "tool", "content": str(result), "tool_call_id": tool_id}
-                    print(f"Tool '{tool_name}' called with arguments {tool_args}. Result: {result}")
-                    message_history.append(tool_response)                
-                else:
+                if tool_name not in tool_map:
                     print(f"Error: Tool '{tool_name}' not found.")
-                    break
+                    continue
 
-                response = llm.invoke([system_prompt, *message_history])
+                tool_func = tool_map[tool_name]
+                result = tool_func.invoke(tool_args)
+                tool_response = {"role": "tool", "content": str(result), "tool_call_id": tool_id}
+                print(f"Tool '{tool_name}' called with arguments {tool_args}. Result: {result}")
+                message_history.append(tool_response)
+
+            # 所有工具結果都放進歷史後，再讓模型產生下一步回應
+            response = llm.invoke([system_prompt, *message_history])
 
         assistant_message = {"role": "assistant", "content": response.content}
         message_history.append(assistant_message)
