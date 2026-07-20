@@ -146,7 +146,7 @@ Session 與 memory 不為「都是 JSONL」強行共用 serializer。若之後 I
 
 - Shell 傳入 `create_agent(session_path=...)` 的值為**相對於專案根目錄**的相對路徑字串，且必須：
   - 以 `.jsonl` 結尾
-  - path parts 含 `sessions`（例：`dataset_streamlit_shell/sessions/session_YYYYMMDD_HHMMSS_xxxxxx.jsonl`）
+  - path parts 含 `sessions`（例：`sessions/session_YYYYMMDD_HHMMSS_xxxxxx.jsonl`）
   - resolve 後落在專案根目錄之下（禁止 `..` 逃逸）
   - 指向的檔案在啟用 Agent 時必須已存在（由 Shell 先 `touch` 建立空檔）
 - Runtime `SessionStore`：
@@ -358,10 +358,10 @@ main.py（學生擁有）
 建議目錄布局（Session 與 memory 資料分開；memory 路徑是否沿用下列結構仍待討論）：
 
 ```text
+sessions/                      ← 專案根（與 main_shell 預設對齊）
+├── session_001.jsonl
+└── session_002.jsonl
 dataset_streamlit_shell/
-├── sessions/
-│   ├── session_001.jsonl
-│   └── session_002.jsonl
 └── memory/                    ← 由 peas-agent-memory 使用（若啟用）
     └── （格式 TBD）
 ```
@@ -814,8 +814,8 @@ add-dataset-streamlit-shell --require-agent-contract
 
 `--update` 必須保留：
 
+- `sessions/`（專案根；對話 JSONL）
 - `dataset_streamlit_shell/workspace/`
-- `dataset_streamlit_shell/sessions/`
 - `dataset_streamlit_shell/memory/`（若目錄已存在；即使 memory 套件尚未定案，也不可在 update 時刪除學生資料）
 - `dataset_streamlit_shell/uploads/`
 - `dataset_streamlit_shell/scripts/`
