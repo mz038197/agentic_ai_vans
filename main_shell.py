@@ -19,6 +19,7 @@ from peas_agent_tools import get_builtin_tools
 load_dotenv(Path(__file__).resolve().parent / ".env")
 
 MAX_TOOL_ROUNDS = 8
+DEFAULT_SESSION_PATH = "sessions/session.jsonl"
 
 
 @tool
@@ -71,7 +72,8 @@ class Agent:
         self.tool_map = {t.name: t for t in tools}
         self.host_context = host_context
         root = Path(base_dir) if base_dir is not None else Path.cwd()
-        self.session = SessionStore(session_path, base_dir=root)
+        path = DEFAULT_SESSION_PATH if session_path is None else session_path
+        self.session = SessionStore(path, base_dir=root)
         self.history = self.session.load()
 
     def chat(self, user_text: str, *, image_path: str | None = None, on_token=None) -> str:
@@ -124,14 +126,14 @@ class Agent:
 
 
 def build_llm() -> ChatOpenAI:
-    api_key = os.environ.get("OPENAI_API_KEY") or os.environ.get("VCR_API_KEY")
+    api_key = os.environ.get("API_KEY")
     if not api_key:
         raise RuntimeError("請設定環境變數 OPENAI_API_KEY（或 VCR_API_KEY）。")
     return ChatOpenAI(
         api_key=api_key,
-        model_name=os.environ.get("OPENAI_MODEL", "ollama_cloud@minimax-m3:cloud"),
+        model_name=os.environ.get("MODEL_NAME"),
         temperature=0.7,
-        base_url=os.environ.get("OPENAI_BASE_URL", "https://ai.vanscoding.com/v1"),
+        base_url=os.environ.get("BASE_URL"),
     )
 
 

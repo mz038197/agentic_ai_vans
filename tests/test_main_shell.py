@@ -32,6 +32,15 @@ def test_host_context_merged_into_system() -> None:
     assert "路徑規則" in msg["content"]
 
 
+def test_default_session_path(tmp_path: Path) -> None:
+    llm = FakeLLM([AIMessage(content="ok")])
+    agent = main_shell.Agent(llm=llm, tools=[], base_dir=tmp_path)
+    agent.chat("hi")
+    path = tmp_path / "sessions" / "session.jsonl"
+    assert path.is_file()
+    assert agent.session.path == path.resolve()
+
+
 def test_chat_without_tools_saves_session(tmp_path: Path) -> None:
     session = tmp_path / "sessions" / "s.jsonl"
     session.parent.mkdir()
