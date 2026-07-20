@@ -7,9 +7,21 @@ requires-python = ">=3.12"
 dependencies = [
     "langchain-openai>=1.3.3",
     "peas-agent-core",
+    "peas-agent-runtime",
     "peas-agent-tools",
+    "python-dotenv>=1.0.0",
 ]
 
 [tool.uv.sources]
 peas-agent-core = { path = "../peas-agent-core", editable = true }
+peas-agent-runtime = { path = "../peas-agent-runtime", editable = true }
 peas-agent-tools = { git = "https://github.com/mz038197/peas-agent-tools.git", tag = "v0.1.1" }
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
