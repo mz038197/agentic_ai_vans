@@ -17,6 +17,7 @@ dependencies = [
     "peas-agent-runtime",
     "peas-agent-tools",
     "pillow>=12.3.0",
+    "plotly>=6.9.0",
     "python-dotenv>=1.0.0",
     "scikit-learn>=1.9.0",
     "streamlit>=1.59.2",
