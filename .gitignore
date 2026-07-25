@@ -14,3 +14,6 @@ wheels/
 
 # Runtime session data
 sessions/
+
+# dataset_streamlit_shell
+dataset_streamlit_shell/
