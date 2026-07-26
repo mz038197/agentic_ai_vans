@@ -71,7 +71,7 @@ requires-dist = [
     { name = "plotly", specifier = ">=6.9.0" },
     { name = "python-dotenv", specifier = ">=1.0.0" },
     { name = "scikit-learn", specifier = ">=1.9.0" },
-    { name = "streamlit", specifier = ">=1.50" },
+    { name = "streamlit", specifier = ">=1.59.2" },
     { name = "tensorflow-cpu", specifier = ">=2.21.0" },
     { name = "torchvision", specifier = ">=0.28.0" },
     { name = "ultralytics", specifier = ">=8.3.237" },
