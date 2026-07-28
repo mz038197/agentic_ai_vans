@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import main_shell
+import main_shell_b
 import pytest
 from langchain_core.messages import AIMessage
 from peas_agent_runtime.contract import check_agent_factory
@@ -32,13 +33,28 @@ def test_host_context_merged_into_system() -> None:
     assert "路徑規則" in msg["content"]
 
 
-def test_default_session_path(tmp_path: Path) -> None:
-    llm = FakeLLM([AIMessage(content="ok")])
-    agent = main_shell.Agent(llm=llm, tools=[], base_dir=tmp_path)
+def test_create_agent_default_session_path(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(
+        main_shell,
+        "ChatOpenAI",
+        lambda **kwargs: FakeLLM([AIMessage(content="ok")]),
+    )
+    monkeypatch.setattr(main_shell, "get_builtin_tools", lambda: [])
+    agent = main_shell.create_agent()
     agent.chat("hi")
     path = tmp_path / "sessions" / "session.jsonl"
     assert path.is_file()
     assert agent.session.path == path.resolve()
+
+
+def test_agent_none_session_path_is_memory_mode() -> None:
+    llm = FakeLLM([AIMessage(content="ok")])
+    agent = main_shell.Agent(llm=llm, tools=[])
+    agent.chat("hi")
+    assert agent.session.path is None
 
 
 def test_chat_without_tools_saves_session(tmp_path: Path) -> None:
@@ -49,9 +65,8 @@ def test_chat_without_tools_saves_session(tmp_path: Path) -> None:
     agent = main_shell.Agent(
         llm=llm,
         tools=[],
-        session_path=str(session.relative_to(tmp_path)),
+        session_path=str(session),
         host_context="HOST",
-        base_dir=tmp_path,
     )
     answer = agent.chat("嗨")
     assert answer == "你好"
@@ -62,9 +77,7 @@ def test_chat_without_tools_saves_session(tmp_path: Path) -> None:
     assert agent.history[0]["content"] == "嗨"
     assert agent.history[1]["role"] == "assistant"
     assert agent.history[1]["content"] == "你好"
-    reloaded = main_shell.SessionStore(
-        str(session.relative_to(tmp_path)), base_dir=tmp_path
-    ).load()
+    reloaded = main_shell.SessionStore(str(session)).load()
     assert reloaded[0]["role"] == "user"
     assert reloaded[0]["content"] == "嗨"
     assert reloaded[1]["content"] == "你好"
@@ -93,8 +106,7 @@ def test_chat_tool_call_round_trip(tmp_path: Path) -> None:
     agent = main_shell.Agent(
         llm=llm,
         tools=[main_shell.calculator],
-        session_path=str(session.relative_to(tmp_path)),
-        base_dir=tmp_path,
+        session_path=str(session),
     )
     answer = agent.chat("12 × 5")
     assert answer == "答案是 60。"
@@ -125,20 +137,33 @@ def test_unknown_tool_writes_error_tool_message(tmp_path: Path) -> None:
     agent = main_shell.Agent(
         llm=llm,
         tools=[main_shell.calculator],
-        session_path=str(session.relative_to(tmp_path)),
-        base_dir=tmp_path,
+        session_path=str(session),
     )
     agent.chat("go")
     assert agent.history[2]["role"] == "tool"
     assert "not found" in agent.history[2]["content"]
 
 
-def test_image_path_raises_not_silently_ignored(tmp_path: Path) -> None:
+def test_image_path_ignored_in_main_shell(tmp_path: Path) -> None:
     session = tmp_path / "sessions" / "img.jsonl"
     session.parent.mkdir()
     session.touch()
     llm = FakeLLM([AIMessage(content="看到了")])
     agent = main_shell.Agent(
+        llm=llm,
+        tools=[],
+        session_path=str(session),
+    )
+    answer = agent.chat("看圖", image_path="uploads/chat_images/a.png")
+    assert answer == "看到了"
+
+
+def test_image_path_raises_in_main_shell_b(tmp_path: Path) -> None:
+    session = tmp_path / "sessions" / "img.jsonl"
+    session.parent.mkdir()
+    session.touch()
+    llm = FakeLLM([AIMessage(content="看到了")])
+    agent = main_shell_b.Agent(
         llm=llm,
         tools=[],
         session_path=str(session.relative_to(tmp_path)),
