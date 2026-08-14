@@ -7,7 +7,7 @@ api_key = "vcr_sk_6b741c30e40f1b1bd51c9ee3e434bbb3f8979bc0b07930a31200099b241385
 
 @tool
 def calculator(a: float, b: float, operation: str) -> float:
-    """Perform a calculation on two numbers."""
+    """對兩個數字做加減乘除運算。需要計算時請呼叫此工具。"""
     if operation == "add":
         return a + b
     elif operation == "subtract":
