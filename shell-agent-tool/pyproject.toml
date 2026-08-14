@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "add-shell-agent"
+version = "0.1.0"
+description = "從 vans 模板寫入學生專案的 Shell Agent 檔，並填入角色設定。"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+add-shell-agent = "add_shell_agent.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[dependency-groups]
+dev = ["pytest>=8.0"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
