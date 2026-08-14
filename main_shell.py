@@ -4,7 +4,6 @@
 tool loop 對齊 main.py 的 while response.tool_calls。
 image_path 簽名保留但本版忽略（不當附圖處理）。
 訊息格式：role 字典（SessionStore）；不在學生程式裡組 AIMessage／HumanMessage。
-較嚴的 Gate A 變體（image_path raise、for 上限）見 main_shell_b.py。
 """
 
 from __future__ import annotations
@@ -37,7 +36,6 @@ def calculator(a: float, b: float, operation: str) -> float:
         return "Error: Division by zero"
     return "Error: Unsupported operation"
 
-# TODO 1 先將 host_context 補進去
 def build_system_prompt(host_context: str | None = None) -> dict:
     soul = "你是法鬥超人，一位擅長引導學生python問題的助教"
     user = (

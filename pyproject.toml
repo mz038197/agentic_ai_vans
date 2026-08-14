@@ -32,12 +32,3 @@ peas-agent-tools = { git = "https://github.com/mz038197/peas-agent-tools.git", t
 clip = { git = "https://github.com/ultralytics/CLIP.git" }
 openai-tts = { git = "https://github.com/mz038197/openai-tts.git" }
 peas-agent-runtime = { path = "../peas-agent-runtime", editable = true }
-
-[dependency-groups]
-dev = [
-    "pytest>=8.0",
-]
-
-[tool.pytest.ini_options]
-pythonpath = ["."]
-testpaths = ["tests"]
