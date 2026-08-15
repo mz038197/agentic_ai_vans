@@ -1,10 +1,3 @@
-"""Shell 用參考 Agent（由 main.py 概念重構；原 main.py 禁止修改）。
-
-相對 main.py 的增量：create_agent、SessionStore、host_context。
-tool loop 對齊 main.py 的 while response.tool_calls。
-image_path 簽名保留但本版忽略（不當附圖處理）。
-訊息格式：role 字典（SessionStore）；不在學生程式裡組 AIMessage／HumanMessage。
-"""
 
 from __future__ import annotations
 
@@ -67,12 +60,10 @@ class Agent:
         user_prompt = {"role": "user", "content": user_text}
         self.history.append(user_prompt)
 
-        # --- 以下控制流對齊 main.py ---
         response = self.llm.invoke([system_prompt, *self.history])
 
         while response.tool_calls:
-            # main.py：message_history.append(response)
-            # 接 SessionStore 必須改成 role 字典，不能直接塞 AIMessage
+            
             self.history.append(
                 {
                     "role": "assistant",
@@ -125,14 +116,14 @@ def create_agent(session_path=None, host_context=None):
 def main() -> None:
     agent = create_agent()
     while True:
-        question = input("你的問題: ").strip()
+        question = input("\n你的問題: ").strip()
         if not question:
             print("請輸入一個問題。")
             continue
         if question.lower() == "quit":
             print("Exiting...")
             break
-        print("AI:", agent.chat(question))
+        print("\nAI:", agent.chat(question))
 
 
 if __name__ == "__main__":
