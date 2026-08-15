@@ -3,7 +3,9 @@ from langchain_openai import ChatOpenAI
 from langchain_core.tools import tool
 from peas_agent_tools import get_builtin_tools
 
-api_key = "vcr_sk_6b741c30e40f1b1bd51c9ee3e434bbb3f8979bc0b07930a31200099b2413859f"
+API_KEY = "vcr_sk_6b741c30e40f1b1bd51c9ee3e434bbb3f8979bc0b07930a31200099b2413859f"
+MODEL_NAME = "ollama_cloud@minimax-m3:cloud"
+BASE_URL = "https://ai.vanscoding.com/v1"
 
 @tool
 def calculator(a: float, b: float, operation: str) -> float:
@@ -38,16 +40,16 @@ def main():
     tool_map = {tool.name: tool for tool in tools}
 
     llm = ChatOpenAI(
-        api_key=api_key, 
-        model_name="ollama_cloud@minimax-m3:cloud", 
+        api_key=API_KEY, 
+        model_name=MODEL_NAME, 
         temperature=0.7,
-        base_url="https://ai.vanscoding.com/v1")
+        base_url=BASE_URL)
     
     llm = llm.bind_tools(tools)
 
     message_history = []
     while True:
-        question = input("你的問題: ")
+        question = input("\n你的問題: ")
 
         if not question.strip():
             print("請輸入一個問題。")
@@ -91,7 +93,7 @@ def main():
 
         assistant_message = {"role": "assistant", "content": response.content}
         message_history.append(assistant_message)
-        print("AI: ", end="")
+        print("\nAI: ", end="")
         print(response.content)
 
 
