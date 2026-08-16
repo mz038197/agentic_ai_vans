@@ -51,7 +51,7 @@ def main():
     while True:
         question = input("\n你的問題: ")
 
-        if not question.strip():
+        if question.strip() == "":
             print("請輸入一個問題。")
             continue
 
