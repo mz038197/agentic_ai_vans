@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "netlify-publish": {
+      "source": "mz038197/vanscoding-skills",
+      "sourceType": "github",
+      "skillPath": "Teacher/netlify-publish/SKILL.md",
+      "computedHash": "03b570806f3f6f819d4f4a8ec174def01f28797e10204adb804f4fada8d25d7a"
+    }
+  }
+}

@@ -20,3 +20,8 @@ dataset_streamlit_shell/
 
 # IDE configuration
 .vscode/
+
+.agents/
+
+# Local Netlify folder
+.netlify
