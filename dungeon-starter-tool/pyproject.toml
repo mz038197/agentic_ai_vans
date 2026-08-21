@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "add-dungeon-starter"
+version = "0.1.0"
+description = "從 vans 起點模板寫入學生課程專案的課堂起點檔。"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+add-dungeon-starter = "add_dungeon_starter.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[dependency-groups]
+dev = ["pytest>=8.0"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
