@@ -55,7 +55,7 @@ def main():
             print("請輸入一個問題。")
             continue
 
-        if question.strip().lower() == "quit":
+        if question.strip().lower() == "bye bye":
             print("Exiting...")
             break
         
