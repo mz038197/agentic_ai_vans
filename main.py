@@ -6,6 +6,7 @@ from peas_agent_tools import get_builtin_tools
 API_KEY = "vcr_sk_6b741c30e40f1b1bd51c9ee3e434bbb3f8979bc0b07930a31200099b2413859f"
 MODEL_NAME = "ollama_cloud@minimax-m3:cloud"
 BASE_URL = "https://ai.vanscoding.com/v1"
+TEMPERATURE = 0.7
 
 @tool
 def calculator(a: float, b: float, operation: str) -> float:
@@ -42,7 +43,7 @@ def main():
     llm = ChatOpenAI(
         api_key=API_KEY, 
         model_name=MODEL_NAME, 
-        temperature=0.7,
+        temperature=TEMPERATURE,
         base_url=BASE_URL)
     
     llm = llm.bind_tools(tools)
