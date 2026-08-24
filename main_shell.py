@@ -234,7 +234,7 @@ def create_agent(session_path=None, host_context=None):
     llm = ChatOpenAI(
         api_key=os.environ.get("API_KEY"),
         model=os.environ.get("MODEL_NAME"),
-        temperature=0.7,
+        temperature=os.environ.get("TEMPERATURE"),
         base_url=os.environ.get("BASE_URL"),
         use_responses_api=True,
         output_version="responses/v1",
