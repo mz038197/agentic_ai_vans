@@ -238,7 +238,7 @@ def create_agent(session_path=None, host_context=None):
         base_url=os.environ.get("BASE_URL"),
         use_responses_api=True,
         output_version="responses/v1",
-        reasoning={"effort": "medium", "summary": "auto"},
+        reasoning={"effort": "low", "summary": "auto"},
     )
     return Agent(
         llm,
