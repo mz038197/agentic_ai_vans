@@ -55,9 +55,9 @@
 
 第 2–5 堂。不開 VS Code 當主場地。
 
-**天花板（第 5 堂結束；Planning 在第 4 堂交件）：** 一支神通 Agent，有自己的身份、學生自己掛上老師建好的時段工具與貼海報工具、會在對的時候呼叫、同一條 Session 記得這輪對話。第 4 堂把登記助理升級成畫布：SEQ／PAR／LOOP／RTR 都要跑過，看板看得到占用和海報。學生能講「我改了什麼、它因此做了什麼」。
+**天花板（第 5 堂結束）：** 一支神通 Agent，有身份、會掛老師的時段／海報／送件工具、Session 記得這輪對話。第 4 堂畫布 SEQ／PAR／LOOP／RTR 跑過，看板有占用和海報。第 5 堂同一支再掛 RAG（辦法）與 Skill（申請 SOP＋表單範本），送件後看板出現待審。學生能講三種外掛差在哪：REST 工具、文件、做法包。
 
-到此為止，不是 coding 能力。未包含：自寫 MCP／API Server、`run_sse` 客戶端、VS Code、學生產品網頁、自己的資料庫／RAG。課室看板仍是老師的站。Coder 是第 6–7 堂，產品決策瞬間是第 8 堂。
+到此為止，不是 coding 能力。未包含：自寫 MCP／API Server、`run_sse` 客戶端、VS Code、學生產品網頁、自己的 `rooms.json`。課室看板仍是老師的站。占用表不要塞進 RAG。Coder 是第 6–7 堂，產品確認鈕是第 8 堂。
 
 舊版從零一路走到 Router 寫碼，Builder 和 Coder 是同一條坡。新版在第 5 堂切斷：神通 Builder 交的是「會改 Agent」，不是「會做軟體」。
 
@@ -68,7 +68,7 @@
 | 2 | **Lv4 Identity** | Role／Goal／Instruction／Constraints | 工具 |
 | 3 | **Lv6 Tools**（順帶 **Lv5 Memory** 指認） | 自己把時段工具掛上 LLM；改何時呼叫。用同一筆／新開對話對照：聊天忘了，占用表還在 | 不建 API Server、不填 `base_url`、不寫 MCP／OpenAPI。完整 Observe→Decide→Act 是 Lv7，第 8 堂。長期占用表／DB／RAG 仍是第 9 堂 |
 | 4 | **Planning**（Dungeon 沒有獨立關卡） | 同一支登記助理升級：SEQ 先查再訂；空則 PAR 訂＋寫招生海報；LOOP 海報改到能貼再 `post_poster`；滿則 RTR 換週三再查 | 不要叫 Lv8。產品決策瞬間與確認鈕仍是第 8 堂。不在 API 裡自動改推 |
-| 5 | **待定** | 原 Planning 已換到第 4 堂。本格主題未定 | — |
+| 5 | **Tools 加厚**（RAG＋Skill，不當 MCP 主軸） | 同一支助理：掛資料夾與技能；依範本填申請單；`submit_application` 送上看板待審 | 不建 MCP Server、不寫 Skill zip、不把占用塞進 RAG。學生網站確認鈕仍是第 8 堂 |
 
 編號會跳：2→4、3→6，Memory 不再單獨占一堂。跟學生講「這堂練的能力叫什麼」，不要講「我們在衝 Dungeon 第幾關」。
 
@@ -122,7 +122,7 @@
 - VS Code MCP：組裝神通上的 App（建 agent、掛工具、改 instruction）
 - HTTP：學生網站打進來，Router 代打 login／session／`run_sse`
 
-工具執行在神通。學生後端不跑 tool loop。第 3 堂學生只勾 `check_slot`、`reserve_slot`。第 4 堂再勾老師已建的 `post_poster`。`base_url`／新建 API Server 等學生有自己的 REST 再填（第 7、9 堂）。
+工具執行在神通。學生後端不跑 tool loop。第 3 堂學生只勾 `check_slot`、`reserve_slot`。第 4 堂再勾 `post_poster`。第 5 堂再勾 `submit_application`、老師的資料夾與技能。`base_url`／新建 API Server 等學生有自己的 REST 再填（第 7、9 堂）。
 
 本機 `main.py`（Agent Dungeon）只當對照，不當作業主線。
 
@@ -138,7 +138,7 @@
 | 2 | Builder | 用現成再寫身份 | 開場體驗 Lv1–3；本堂 Lv4 Identity | Role、Instruction、Constraints | 老師 App → 學生自己的 LLM | Idea Bank 鉤子＋Personal Agent v0.1 |
 | 3 | Builder | 它開始會做事 | Lv6 Tools；順帶 Lv5 指認 | 掛現成 Tool、何時呼叫；同一筆／新開對話對照 | 神通 LLM＋老師的預約 API＋課室看板 | 會呼叫時段工具的 Agent；能說聊天和占用表不是同一個抽屜 |
 | 4 | Builder | 複雜任務拆開做 | Planning | SEQ／PAR／LOOP／RTR；掛 `post_poster` | 神通畫布＋老師占用／海報 API＋課室看板 | 四層都跑過；看板有占用也有海報 |
-| 5 | Builder | 待定 | 待定 | 原 Planning 已換到第 4 堂 | 待定 | 待定 |
+| 5 | Builder | 規定與申請 | RAG＋Skill | 掛資料夾／技能；填表送待審 | 神通＋課室看板（待審） | 申請單在看板上待審；能講 RAG≠占用表≠Skill |
 | 6 | AI Coder | 用 AI 寫軟體 | Lv8 Coding 起算 | Spec → Task → 寫碼 | VS Code | 產品 Spec + 第一個網頁殼 |
 | 7 | AI Coder | 網站接到 Agent | Lv8（接上神通） | Router HTTP、`run_sse` | Web → Router → 神通 | Agent Web App v1 |
 | 8 | Product Builder | 不是加聊天框 | Lv7 Decision | Observe→Decide→Act、人在迴圈裡 | 同一套 Web + 神通 | Web App v2（有決策瞬間） |
@@ -159,11 +159,11 @@
 
 - 一支示範用神通 App（第 2 堂開場全班用）。要真的查時段、擋住衝突，不能只回「好啊你去跟總務說」。
 - 同一支的第二套 instruction：嚴格總務 vs 好說話的學長。
-- 一支占用＋海報 API（神通打得到的網址）＋ Space 內一個 API Server。第 3 堂先兩支手填 Call API Tool：`check_slot`（教室、日期）、`reserve_slot`（教室、時段、社團）。第 4 堂再加 `post_poster`（社團、教室、日期、時段、文案）。契約仍是 `查空檔`／`預留`，外加 `貼海報`。不要 OpenAPI、不要 MCP、不要天氣當主線。工具本身不自動改推下一格。
-- 課室看板（老師的儀表板）：只讀。占用表顯示誰先搶到、後到衝突。另頁或同站一欄顯示已貼海報。網站上沒有預約按鈕。課前一鍵重設：格子和海報一起清。種子：視聽教室下一個週三午休已有社團占用；表上要有後續幾個週三午休（給 RTR 換日）。
-- 第 3 堂學生自己把 `check_slot`、`reserve_slot` 掛上 LLM。每組一個不會撞的社團名；API 認的是 `預留`／`貼海報` 傳來的社團，不是神通帳號。同一堂用占用表做對話對照：新開聊天，占用格還在。不要另做記憶 API，也不要新工具去「回想剛訂了什麼」。海報頁第 3 堂可以開著，當堂不要求貼上。
-- 第 4 堂學生再掛 `post_poster`，把同一支助理做成 SEQ／PAR／LOOP／RTR。
-- 第 5 堂主題待定（原 Planning 已換到第 4 堂）。
+- 一支占用＋海報＋申請 API（神通打得到的網址）＋ Space 內一個 API Server。第 3 堂：`check_slot`、`reserve_slot`。第 4 堂加 `post_poster`。第 5 堂加 `submit_application`（依 Skill 範本填完的申請單）。契約：`查空檔`／`預留`／`貼海報`／`送申請`。看板專案：[club-booking-board](https://github.com/mz038197/club-booking-board)。不要 OpenAPI、不要 MCP 當主線、不要天氣。工具本身不自動改推下一格。
+- 課室看板（老師的儀表板）：學生不能在上面按預約。占用、海報、第 5 堂起的**待審申請**同一站。待審與「已被占」不要同一種顏色。課前一鍵重設：格子、海報、待審一起清。種子：視聽教室下一個週三午休已有社團占用；表上要有後續幾個週三午休。
+- 第 3 堂學生自己把 `check_slot`、`reserve_slot` 掛上 LLM。每組一個不會撞的社團名；API 認社團字串，不是神通帳號。同一堂用占用表做對話對照。不要另做記憶 API。海報頁第 3 堂可以開著，當堂不要求貼上。
+- 第 4 堂學生再掛 `post_poster`，做成 SEQ／PAR／LOOP／RTR。
+- 第 5 堂老師備好 RAG 資料夾（辦法，不含占用表）與 Skill（申請 SOP，`references` 放表單範本）。學生掛上，送件後看板待審；老師准或駁。`reserve_slot` 不當第 5 堂最後一槌。
 - 第 9 堂學生 repo 裡一份 `data/rooms.json`（教室、時段、誰借走）。
 
 | 堂 | 小明這堂碰到什麼 | 當堂只新加 | 還缺、下堂才給 |
@@ -171,8 +171,8 @@
 | 1 | User，內容另有安排。不走教室登記產品。 | — | — |
 | 2 | 先用老師的登記 App 走完一輪：要視聽教室、看到查過占用、准或被拒。再看老師切兩套身份。然後自己從零建一支 LLM 登記助理，寫成嚴格或好說話，同一題對照。 | 當使用者走完；Identity | 自己那支還是只會講，不會查真的空檔 |
 | 3 | 學生把時段工具掛上自己的 LLM，改 instruction 何時呼叫。同一題搶視聽教室：神通要看到 tool，看板要動。接著同一筆問「我剛訂了哪」，再新開一筆問同一句（答不出），看板那格仍亮；新對話若改問「這格有沒有人」去查表，會說有人。 | 掛工具；何時呼叫；指認聊天≠占用表 | 畫布拆步驟、招生海報、換日（第 4 堂）。明天重開、自己的 `rooms.json`（第 9 堂） |
-| 4 | 同一支助理加四層：先查再訂；有空則同時訂＋寫招生海報；海報改到能貼再打 API 上看板；第一次若已被占，換後面的週三午休再查，找到再訂＋做海報。 | Planning；SEQ／PAR／LOOP／RTR；`post_poster` | 還在神通對話框裡。人按確認才鎖定是第 8 堂 |
-| 5 | （待定。原 Planning 已換到第 4 堂。） | — | — |
+| 4 | 同一支助理加四層：先查再訂；有空則同時訂＋寫招生海報；海報改到能貼再打 API 上看板；第一次若已被占，換後面的週三午休再查，找到再訂＋做海報。 | Planning；SEQ／PAR／LOOP／RTR；`post_poster` | 正式申請、辦法 RAG、待審（第 5 堂）。學生網站確認鈕是第 8 堂 |
+| 5 | 日期談定後依 Skill 範本填場地申請，對 RAG 辦法裁決，`submit_application` 送上看板變待審。老師准或駁。沒掛 RAG／Skill，表缺欄或依據是瞎掰。 | 掛資料夾與技能；送待審 | 學生自己的網站與確認鈕（第 8 堂）；自己的 `rooms.json`（第 9 堂） |
 | 6 | 為「教室登記網站」寫 Spec。做出有「教室／日期／時段／我的預約」區塊的殼，按鈕是假的。 | Spec、網頁殼 | 殼還不能打電話 |
 | 7 | 網站經 Router 打自己的神通助理，畫面上跟它說話。 | `run_sse` | 看起來仍像聊天框 |
 | 8 | 同一時段已有人：Agent 不准或改推下一個空檔，網站標出這次判斷。真的鎖教室要按確認。 | 決策瞬間（Lv7） | 重整後預約沒了 |
@@ -286,11 +286,46 @@ LLM 會回答
 
 不做：學生寫 API、填 `base_url`、新建 API Server、在看板上按預約或手動貼海報。第 8 堂才是網站標出判斷、人按確認才鎖定。這裡換日並訂成，是 Builder 的分流。
 
-### 第 5 堂：待定
+### 第 5 堂：規定在資料夾，申請照 SOP 送待審
 
-原「複雜任務／畫布五塊」已換到第 4 堂。本格主題未定。
+本堂不加新畫布型別。第 4 堂那張圖留下。主軸是 **RAG＋Skill**。MCP 不當主軸（第 3 堂已掛過 REST 工具；平台 MCP 與第 6 堂 Router MCP 也會撞名）。
 
-第二段結束檢查（第 4 堂後先用這份；第 5 堂有新內容再補）：學生能講自己的 Agent 用了什麼身份、什麼工具、記憶存在哪、步驟在畫布哪幾塊，並指認 LLM／SEQ／PAR／LOOP／RTR。還不能要求他們會組 MCP。
+核心問題：文件、做法包、占用 API 是三個抽屜。為什麼填完表，格子還只是待審、不是已經借走？
+
+解鎖：老師準備的資料夾與技能，學生掛上自己的 Agent；新工具 `submit_application`。
+
+老師課前：
+
+- RAG 資料夾（例如 `venue_rules`）：《場地使用辦法》《社團章程摘錄》。可寫：週三午休可借視聽教室、要寫人數、超過 40 人要總務會簽、已被占可改後面週三、不可改到非午休。**不要上傳占用表。**
+- Skill（例如 `venue_application`）：`SKILL.md` 寫何時用、步驟、合格長怎樣。`references` 放申請表範本。不教怎麼寫招生海報。學生不當堂做 zip。
+- API Server 加 `submit_application`。看板（[club-booking-board](https://github.com/mz038197/club-booking-board)）能列出待審，與「已被占」分開。老師能准、駁、重設。
+- 申請掛在「日期已定」之後（訂成功或 RTR 換到空的那天），用 SEQ 接在後面。不要一開場就填表。
+
+Skill 要 Agent 走的步驟：
+
+1. 蒐集本案：社團、活動名稱、教室、哪個週三午休、人數。缺就問，不准猜。
+2. 占用只打 `check_slot`，不准用 RAG 裡的範例日期當真的空檔。
+3. 對 RAG 找出依據條文，申請單要寫「依據第 X 點」。
+4. 裁決四選一：准／准但要會簽／改期／駁回。
+5. 依 `references` 範本填滿欄位，不准自創欄。
+6. 只有准、准但會簽、改期（已換到空日）才能 `submit_application`。駁回不送件、不貼海報。海報仍是第 4 堂那塊 LLM＋`post_poster`。
+7. 欄位不齊最多重走兩輪，還不齊交給人。
+
+學生當堂：
+
+1. 打開第 4 堂那支助理，不要另建無關 App。
+2. 在填申請那塊 LLM 勾 `venue_rules`、勾 `venue_application`、勾 `submit_application`，存檔。
+3. 種子題（下一週三已被占）：申請單裁決是改期，有依據、有新時段；看板出現待審，不是只在對話裡講完。
+4. 老師重設一格空的、人數 25：待審應是「准」。
+5. 同一格空的、人數 50：待審應是「准但要會簽」。
+6. 要週三晚上：裁決駁回，看板上沒有他們的待審（或一筆駁回），格子不是他們的。
+7. 拿掉 RAG 再跑：若還寫得出具體「第 X 點」，就是瞎掰，當沒過。
+
+當堂成功：至少改期、准、駁回三種有對應待審或明確不送件；能講 RAG 是辦法、Skill 是填表做法、格子是 API。沒掛資料夾或技能、只改 instruction，當沒上。
+
+不做：新建 MCP、填 MCP 網址、學生寫 Skill、占用塞進 RAG、在看板上手動填申請、把第 5 堂准駁做成學生網站（那是第 8 堂）。第 5 堂老師看板當總務。`reserve_slot` 不當本堂最後一槌；正式落袋看你准待審。
+
+第二段結束檢查：學生能講身份、工具、記憶、畫布四塊，以及資料夾／技能／API 各管什麼。還不能要求他們會組 MCP 或寫 `rooms.json`。
 
 ---
 
@@ -406,7 +441,7 @@ Pitch 順序：Problem → 現況痛點 → Idea → Why Agent → Live Demo →
 
 - 第 3 堂：老師建占用 API＋API Server＋兩支 Call API Tool＋課室看板；學生自己掛上 LLM 並改何時呼叫。不填 `base_url`。看板不是學生產品。掛完工具當場用占用表對照新開對話：聊天忘了，格子還在。自訂 API Server 延到第 7、9 堂。
 - 第 4 堂：原 Session 堂取消後，改收 Planning。同一支助理交 SEQ／PAR／LOOP／RTR；加 `post_poster`；看板看占用也看海報。長期資料仍是第 9 堂。產品確認鈕仍是第 8 堂。
-- 第 5 堂待定。
+- 第 5 堂：同一支助理掛 RAG＋Skill；範本在 Skill `references`；`submit_application` 後看板待審。MCP 不當主軸。占用不進 RAG。產品確認鈕仍是第 8 堂。看板 repo：`https://github.com/mz038197/club-booking-board`。
 - 第 6–7 堂才出現 Router；第 6 組裝、第 7 通話。
 - 第 1 堂仍是 User，內容另有安排，本稿不寫。舊第 1 堂教室登記內容（走完老師 App、兩套身份、Idea Bank）整段併進第 2 堂開場。第 2 堂角色仍是 Builder，開場之後才從零建 LLM、改 instruction。
 - 第 11–12 堂收在 Product Builder 裡，不再另立第五段角色，避免曲線和課表對不齊。
