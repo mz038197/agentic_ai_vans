@@ -15,6 +15,7 @@ dependencies = [
     "opencv-python-headless>=5.0.0.93",
     "pandas>=3.0.3",
     "peas-agent-runtime",
+    "peas-agent-skills",
     "peas-agent-tools",
     "pillow>=12.3.0",
     "plotly>=6.9.0",
@@ -32,3 +33,4 @@ peas-agent-tools = { git = "https://github.com/mz038197/peas-agent-tools.git", t
 clip = { git = "https://github.com/ultralytics/CLIP.git" }
 openai-tts = { git = "https://github.com/mz038197/openai-tts.git" }
 peas-agent-runtime = { path = "../peas-agent-runtime", editable = true }
+peas-agent-skills = { path = "../peas-agent-skills", editable = true }

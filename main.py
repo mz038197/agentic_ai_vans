@@ -1,6 +1,7 @@
 
 from langchain_openai import ChatOpenAI
 from langchain_core.tools import tool
+from peas_agent_skills import load_all_skills
 from peas_agent_tools import get_builtin_tools
 
 API_KEY = "vcr_sk_6b741c30e40f1b1bd51c9ee3e434bbb3f8979bc0b07930a31200099b2413859f"
@@ -28,11 +29,14 @@ def calculator(a: float, b: float, operation: str) -> float:
 def build_system_prompt():
     soul = "你是法鬥超人，一位擅長引導學生python問題的助教"
     user = "我的名字叫Vans, 是一位樂於分享AI資訊的講師。我喜歡你用簡潔扼要的方式引導我解決python問題，並且在回答中加入一些幽默感。"
+    skills_text = load_all_skills()
     system_content = f"""
     # 角色設定
     {soul}
     # 使用者設定
     {user}
+    # 技能卷軸
+    {skills_text}
     """
     return {"role": "system", "content": system_content}
 

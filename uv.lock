@@ -37,6 +37,7 @@ dependencies = [
     { name = "opencv-python-headless" },
     { name = "pandas" },
     { name = "peas-agent-runtime" },
+    { name = "peas-agent-skills" },
     { name = "peas-agent-tools" },
     { name = "pillow" },
     { name = "plotly" },
@@ -61,6 +62,7 @@ requires-dist = [
     { name = "opencv-python-headless", specifier = ">=5.0.0.93" },
     { name = "pandas", specifier = ">=3.0.3" },
     { name = "peas-agent-runtime", editable = "../peas-agent-runtime" },
+    { name = "peas-agent-skills", editable = "../peas-agent-skills" },
     { name = "peas-agent-tools", git = "https://github.com/mz038197/peas-agent-tools.git?tag=v0.1.1" },
     { name = "pillow", specifier = ">=12.3.0" },
     { name = "plotly", specifier = ">=6.9.0" },
@@ -2061,6 +2063,16 @@ wheels = [
 name = "peas-agent-runtime"
 version = "0.1.0"
 source = { editable = "../peas-agent-runtime" }
+
+[package.metadata]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=8.0" }]
+
+[[package]]
+name = "peas-agent-skills"
+version = "0.1.0"
+source = { editable = "../peas-agent-skills" }
 
 [package.metadata]
 
