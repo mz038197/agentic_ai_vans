@@ -1,13 +1,18 @@
 
+import os
+
+from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.tools import tool
 from peas_agent_skills import load_all_skills
 from peas_agent_tools import get_builtin_tools
 
-API_KEY = "vcr_sk_6b741c30e40f1b1bd51c9ee3e434bbb3f8979bc0b07930a31200099b2413859f"
-MODEL_NAME = "ollama_cloud@minimax-m3:cloud"
-BASE_URL = "https://ai.vanscoding.com/v1"
-TEMPERATURE = 0.7
+load_dotenv()
+
+API_KEY = os.environ.get("API_KEY")
+MODEL_NAME = os.environ.get("MODEL_NAME")
+BASE_URL = os.environ.get("BASE_URL")
+TEMPERATURE = os.environ.get("TEMPERATURE")
 
 @tool
 def calculator(a: float, b: float, operation: str) -> float:
