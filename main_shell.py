@@ -10,6 +10,7 @@ from langchain_core.messages import AIMessage, AIMessageChunk, BaseMessage, mess
 from langchain_core.tools import tool
 from langchain_openai import ChatOpenAI
 from peas_agent_runtime import SessionStore
+from peas_agent_skills import load_all_skills
 from peas_agent_tools import get_builtin_tools
 
 load_dotenv()
@@ -132,11 +133,14 @@ def build_system_prompt(host_context: str | None = None) -> dict:
         "我的名字叫Vans, 是一位樂於分享AI資訊的講師。"
         "我喜歡你用簡潔扼要的方式引導我解決python問題，並且在回答中加入一些幽默感。"
     )
+    skills_text = load_all_skills()
     system_content = f"""
     # 角色設定
     {soul}
     # 使用者設定
     {user}
+    # 技能卷軸
+    {skills_text}
     # Host Environment
     {host_context or ""}
     """
