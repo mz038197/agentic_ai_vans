@@ -61,9 +61,9 @@ requires-dist = [
     { name = "openai-tts", git = "https://github.com/mz038197/openai-tts.git" },
     { name = "opencv-python-headless", specifier = ">=5.0.0.93" },
     { name = "pandas", specifier = ">=3.0.3" },
-    { name = "peas-agent-runtime", editable = "../peas-agent-runtime" },
-    { name = "peas-agent-skills", editable = "../peas-agent-skills" },
-    { name = "peas-agent-tools", git = "https://github.com/mz038197/peas-agent-tools.git?tag=v0.1.1" },
+    { name = "peas-agent-runtime", git = "https://github.com/mz038197/peas-agent-runtime.git" },
+    { name = "peas-agent-skills", git = "https://github.com/mz038197/peas-agent-skills.git" },
+    { name = "peas-agent-tools", git = "https://github.com/mz038197/peas-agent-tools.git" },
     { name = "pillow", specifier = ">=12.3.0" },
     { name = "plotly", specifier = ">=6.9.0" },
     { name = "python-dotenv", specifier = ">=1.0.0" },
@@ -2062,27 +2062,17 @@ wheels = [
 [[package]]
 name = "peas-agent-runtime"
 version = "0.1.0"
-source = { editable = "../peas-agent-runtime" }
-
-[package.metadata]
-
-[package.metadata.requires-dev]
-dev = [{ name = "pytest", specifier = ">=8.0" }]
+source = { git = "https://github.com/mz038197/peas-agent-runtime.git#49f263ac06e1824ffb8a34fb83089c5cddf3fe25" }
 
 [[package]]
 name = "peas-agent-skills"
 version = "0.1.0"
-source = { editable = "../peas-agent-skills" }
-
-[package.metadata]
-
-[package.metadata.requires-dev]
-dev = [{ name = "pytest", specifier = ">=8.0" }]
+source = { git = "https://github.com/mz038197/peas-agent-skills.git#4785635ddf4aaa28734379a2f3da9d263574c6f5" }
 
 [[package]]
 name = "peas-agent-tools"
-version = "0.1.1"
-source = { git = "https://github.com/mz038197/peas-agent-tools.git?tag=v0.1.1#9851d3a9959791f07b647c6093855586d383f68e" }
+version = "0.1.4"
+source = { git = "https://github.com/mz038197/peas-agent-tools.git#b81e4eeccadcd87a9319cd7811d5d57ca0febd2a" }
 dependencies = [
     { name = "ddgs" },
     { name = "httpx" },
