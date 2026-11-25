@@ -1,6 +1,6 @@
 # Handoff：南一中 12 堂 × 神通
 
-Date: 2026-09-22  
+Date: 2026-11-20  
 Workspace: `C:\Users\mz038\Desktop\peas-agent\agentic_ai_vans`  
 本檔是本 repo **唯一** handoff。已刪：`handoff-nanyi-12堂-2026-09-17.md`、`handoff-nanyi-mitac-agent-course.md`、`handoff-mitac-agent-builder-api.md`。
 
@@ -47,7 +47,21 @@ API HTML：該資料夾下 `MitacAgentBuilder-API-docs-v1.2.2\`（Ch.11 App；Ch
 
 Router：VS Code MCP 組裝神通。第 7 堂是練習版薄後端 → 神通 login／Session／`run_sse`，不要網站打進 Router 再轉。token 不當堂存全班、不落盤。學生產品不要本機再做一套 `ChatOpenAI` + tool loop。
 
-本線 **未** 實作占用／海報／兩種申請後端（那是看板 repo），也未在本 session 打神通 API。Skill 上傳走 Admin；USER 只能勾 Space 裡已有的技能。
+本線 **未** 實作占用／海報／兩種申請後端（那是看板 repo）。Skill 上傳走 Admin；USER 只能勾 Space 裡已有的技能。
+
+### 實測（2026-11-20，`172.16.36.62`「Vans測試」，跟文件不一致的以這裡為準）
+
+- **`include_contents` 關掉：** 那塊 LLM 看不到之前的輪次，也看不到使用者這一輪的話，只看得到前一個 Agent 最後的回覆。跟 ADK `_get_current_turn_contents` 一致。實測方法：SEQ 兩塊（第一塊只回「收到」），在 App 聊天畫面同一段對話跑兩輪暗號。開著時兩輪都答得出來，關掉時兩輪都看不到。
+- **畫布 UI 的 Include Contents 勾選框會誤導：** 新拉的 LLM 節點顯示「沒勾」，但只要從沒碰過，實際行為等於開著（單塊 LLM 實測：記得上一輪的暗號）。只有手動勾起來再取消、存檔之後，才會變成真的關掉（同一塊實測：上一輪說的暗號答不出來）。明確勾起來存檔後，畫面會顯示有勾，行為也是開著。**教學規則（已寫進 12 堂第 2 堂）：每一塊 LLM 都先勾起來；只有確定這塊不該看前面的對話時才取消（例如獨立審查員）。**
+- **UI 建 App 的保留回合數預設是 0（不限制）**；API 文件寫的是未指定時預設 5。
+- **畫布的「即時測試」每送一句就開新 Session**，Include Contents 開著也記不住上一句。測記憶要到 App 的聊天畫面測。
+- 畫布：LLM 方塊要拖到空白處，再從 SEQ 下方的接點拉線到 LLM 上方的接點，才會成為一個步驟。下游 instruction 可以插入上游的 `output_key`（UI 上叫「上游變數」）。
+- `custom`（RTR）的條件式是程式判斷（只允許比較和布林運算，引用 `output_key`），不是 LLM 判斷；LOOP 必填 `max_iterations`；只有 LLM 節點能掛工具。（API Ch.12）
+
+### 討論中、未落稿
+
+- 第 4 堂積木的目的要改成「規模與安全」：SEQ 是拆塊之後的骨架，PAR 是省時間，真正的護欄只有 RTR（權限、確定性分流）和 LOOP（獨立審查、次數上限）。四塊仍然都要學生親手拉，並加一塊 LLM 的對照。還沒改進 12 堂檔，要等使用者確認流程再寫。
+- 專題終點採 B 形狀：學生自己的系統（表格加按鈕加 JSON），Agent 住在裡面。不是「ChatGPT 加 plugin」。題目範圍（教室登記，或「一張表加預約／分配」形狀的 Idea Bank）未定。
 
 ---
 
